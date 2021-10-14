@@ -1,39 +1,83 @@
-﻿// Copyright (c) Duende Software. All rights reserved.
-// See LICENSE in the project root for license information.
-
-
+﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 using System.Collections.Generic;
+using static IdentityModel.OidcConstants;
 
-namespace IdentityServer
+namespace GB.IdentityServer
 {
-    public static class Config
+	public static class Config
     {
         public static IEnumerable<IdentityResource> IdentityResources =>
             new IdentityResource[]
-            { 
-                new IdentityResources.OpenId()
+            {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Email(),
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
-            new List<ApiScope>
+            new ApiScope[]
             {
-                new ApiScope("sampleApi", "Sample API")
+                new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
             };
 
         public static IEnumerable<Client> Clients =>
-            new List<Client>
+            new Client[]
             {
-                // machine to machine client
                 new Client
                 {
-                    ClientId = "sampleClient",
-                    ClientSecrets = { new Secret("sampleSecret".Sha256()) },
+                    ClientId = "gb.m2m",
+                    ClientName = "GB",
 
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    // scopes that client has access to
-                    AllowedScopes = { "sampleApi" }
-                }
+                    AllowedGrantTypes = Duende.IdentityServer.Models.GrantTypes.ClientCredentials,
+                    ClientSecrets = { new Secret("secretgbkey".Sha256()) },
+
+                    AllowedScopes = { IdentityServerConstants.LocalApi.ScopeName }
+                },
+
+                new Client
+                {
+                    ClientId = "gb.oidc",
+                    ClientName = "GB",
+                    AllowedGrantTypes = Duende.IdentityServer.Models.GrantTypes.Implicit,
+                    
+                    RedirectUris = {
+                        "https://localhost:5009/assets/signin-callback.html",
+                        "https://localhost:5009/assets/silent-callback.html",
+                    },
+                    PostLogoutRedirectUris = {
+                        "https://localhost:5009/signout-oidc",
+                        "https://localhost:5009/signout-oidc"
+                    },
+                    AllowedCorsOrigins = {
+                        "https://localhost:5009",
+                    },
+                    
+                    AllowedScopes = { StandardScopes.OpenId },
+                    AllowAccessTokensViaBrowser = true,
+                },
+
+                new Client
+                {
+                    ClientId = "interactive.confidential.hybrid",
+                    ClientName = "Sample",
+                    AllowedGrantTypes = Duende.IdentityServer.Models.GrantTypes.Hybrid,
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    RedirectUris = {
+                        "https://localhost:44306/",
+                    },
+                    PostLogoutRedirectUris = {
+                        "https://localhost:44306/",
+                    },
+                    AllowedCorsOrigins = {
+                        "https://localhost:44306",
+                    },
+
+                    AllowedScopes = { StandardScopes.OpenId, StandardScopes.Profile },
+                    AllowAccessTokensViaBrowser = true,
+                    RequirePkce = false, // false when using hybrid flow
+                },
             };
     }
 }

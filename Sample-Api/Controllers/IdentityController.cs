@@ -17,8 +17,6 @@ namespace Sample_Api.Controllers
         }
     }
 
-
-
     //[HttpPost]
     //[Authorize(LocalApi.PolicyName)]
     //public async Task<IActionResult> CreateUser([FromBody] ApplicationUser user)
@@ -59,7 +57,5 @@ namespace Sample_Api.Controllers
     //        return BadRequest();
     //    }
     //}
-
-
 
 }
