@@ -193,7 +193,7 @@ namespace GB.IdentityServer.Controllers
         /// <summary>
         /// Show logout page
         /// </summary>
-        [HttpGet]
+        //[HttpGet]
         //public async Task<IActionResult> Logout(string logoutId) =>
             // build a model so the logout page knows what to display
 
@@ -205,15 +205,15 @@ namespace GB.IdentityServer.Controllers
             // we don't need to show the prompt and can just log the user out directly.
             //await Logout(await BuildLogoutViewModelAsync((string)logoutId));
 
-        private Task<IActionResult> Logout(object v)
-        {
-            throw new NotImplementedException();
-        }
+        //private Task<IActionResult> Logout(object v)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        private Task BuildLogoutViewModelAsync(string logoutId)
-        {
-            throw new NotImplementedException();
-        }
+        //private Task BuildLogoutViewModelAsync(string logoutId)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         /// <summary>
         /// Handle logout page postback
@@ -342,8 +342,8 @@ namespace GB.IdentityServer.Controllers
         //          return View(model);
         //}
 
-        [HttpPost]
-        [Authorize(LocalApi.PolicyName)]
+        //[HttpPost]
+        //[Authorize(LocalApi.PolicyName)]
         public async Task<IActionResult> CreateUser([FromBody] ApplicationUser user)
 		{
             bool userIsInDb = true;
@@ -357,36 +357,36 @@ namespace GB.IdentityServer.Controllers
 			{
                 user = dbUser;
 			}
+            return Ok(user.Email);
+   //         if (userIsInDb)
+   //         {
+   //             string clientName = GetRequestClientName();
 
-            if (userIsInDb)
-			{
-                string clientName = GetRequestClientName();
+   //             if (string.IsNullOrEmpty(clientName))
+   //             {
+   //                 return BadRequest();
+   //             }
 
-                if (string.IsNullOrEmpty(clientName))
-				{
-                    return BadRequest();
-				}
+   //             await _userManager.AddClaimAsync(user, new Claim(clientName, true.ToString().ToLower()));
 
-                await _userManager.AddClaimAsync(user, new Claim(clientName, true.ToString().ToLower()));
+   //             var t = await _userManager.GeneratePasswordResetTokenAsync(user);
+   //             var callbackUrl = Url.Action("ResetPassword", "Account", new { email = user.Email, token = t }, protocol: "https");
 
-                var t = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { email = user.Email, token = t }, protocol: "https");
+   //             send a link for the user to set their password.
+   //             this._emailManager.SendWelcomeEmail(user, callbackUrl);
 
-                //send a link for the user to set their password.
-                this._emailManager.SendWelcomeEmail(user, callbackUrl);
-
-                return Ok(user.Email);
-            }
-            else
-			{
-                return BadRequest();
-			}
+   //             return Ok(user.Email);
+   //         }
+   //         else
+			//{
+   //             return BadRequest();
+			//}
 		}
 
-        private string GetRequestClientName()
-        {
-            throw new NotImplementedException();
-        }
+        //private string GetRequestClientName()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         //      [HttpDelete]
         //      [Authorize(LocalApi.PolicyName)]
@@ -427,30 +427,30 @@ namespace GB.IdentityServer.Controllers
         //          return Ok();
         //      }
 
-        [HttpPost]
-        [Authorize(LocalApi.PolicyName)]
-        public async Task<IActionResult> EditUser([FromBody] ApplicationUser user)
-		{
-           //we currently only support changing First and Last Name from here.  To change email, you need to use special "ChangeEmail" endpoint.
-           var dbUser = await _userManager.FindByEmailAsync(user.Email);
+  //      [HttpPost]
+  //      [Authorize(LocalApi.PolicyName)]
+  //      public async Task<IActionResult> EditUser([FromBody] ApplicationUser user)
+		//{
+  //         //we currently only support changing First and Last Name from here.  To change email, you need to use special "ChangeEmail" endpoint.
+  //         var dbUser = await _userManager.FindByEmailAsync(user.Email);
 
-            if(dbUser != null)
-			{
-                dbUser.FirstName = user.FirstName;
-                dbUser.LastName = user.LastName;
+  //          if(dbUser != null)
+		//	{
+  //              dbUser.FirstName = user.FirstName;
+  //              dbUser.LastName = user.LastName;
 
-                var result = await _userManager.UpdateAsync(dbUser);
-                if (result.Succeeded)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return BadRequest(result);
-                }
-            }
-            return BadRequest();
-        }
+  //              var result = await _userManager.UpdateAsync(dbUser);
+  //              if (result.Succeeded)
+  //              {
+  //                  return Ok(result);
+  //              }
+  //              else
+  //              {
+  //                  return BadRequest(result);
+  //              }
+  //          }
+  //          return BadRequest();
+  //      }
 
   //      [HttpGet]
   //      [Authorize(LocalApi.PolicyName)]

@@ -3,7 +3,7 @@
     "Sample_Api": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
-      "launchBrowser": false,
+      "launchBrowser": true,
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:6001",
       "environmentVariables": {
@@ -12,3 +12,4 @@
     }
   }
 }
+
