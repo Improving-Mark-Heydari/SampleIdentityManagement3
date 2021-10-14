@@ -22,8 +22,8 @@ using Duende.IdentityServer.Models;
 
 namespace GB.IdentityServer.Controllers
 {
-	[SecurityHeaders]
-    public class AccountController : Controller
+	//[SecurityHeaders]
+    public class AccountController : ControllerBase
     {
         private readonly IConfiguration _configuration;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -32,7 +32,7 @@ namespace GB.IdentityServer.Controllers
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
-        private readonly IEmailManager _emailManager;
+        //private readonly IEmailManager _emailManager;
 
         public AccountController(
             IConfiguration configuration,
@@ -342,8 +342,9 @@ namespace GB.IdentityServer.Controllers
         //          return View(model);
         //}
 
-        //[HttpPost]
+        [HttpPost]
         //[Authorize(LocalApi.PolicyName)]
+        [Route("CreateUser")]
         public async Task<IActionResult> CreateUser([FromBody] ApplicationUser user)
 		{
             bool userIsInDb = true;
