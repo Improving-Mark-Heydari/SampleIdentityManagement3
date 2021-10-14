@@ -3,6 +3,12 @@ using Duende.IdentityServer.Models;
 using System.Collections.Generic;
 using static IdentityModel.OidcConstants;
 
+using static Duende.IdentityServer.IdentityServerConstants;
+using Duende.IdentityServer.Services;
+using Duende.IdentityServer.Stores;
+using Duende.IdentityServer.Events;
+using Duende.IdentityServer.Extensions;
+
 namespace GB.IdentityServer
 {
 	public static class Config
@@ -53,7 +59,7 @@ namespace GB.IdentityServer
                         "https://localhost:5009",
                     },
                     
-                    AllowedScopes = { StandardScopes.OpenId },
+                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId },
                     AllowAccessTokensViaBrowser = true,
                 },
 
@@ -74,7 +80,7 @@ namespace GB.IdentityServer
                         "https://localhost:44306",
                     },
 
-                    AllowedScopes = { StandardScopes.OpenId, StandardScopes.Profile },
+                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile },
                     AllowAccessTokensViaBrowser = true,
                     RequirePkce = false, // false when using hybrid flow
                 },

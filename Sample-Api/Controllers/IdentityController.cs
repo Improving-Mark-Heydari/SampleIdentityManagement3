@@ -3,6 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel;
+using static IdentityModel.OidcConstants;
+using static Duende.IdentityServer.IdentityServerConstants;
+using System.Threading.Tasks;
+using GB.IdentityServer.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Sample_Api.Controllers
 {
@@ -10,6 +15,7 @@ namespace Sample_Api.Controllers
     [Authorize]
     public class IdentityController : ControllerBase
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         [HttpGet]
         public IActionResult Get()
         {
@@ -21,6 +27,7 @@ namespace Sample_Api.Controllers
     //[Authorize(LocalApi.PolicyName)]
     //public async Task<IActionResult> CreateUser([FromBody] ApplicationUser user)
     //{
+
     //    bool userIsInDb = true;
     //    var dbUser = await this._userManager.FindByEmailAsync(user.Email);
     //    if (dbUser == null)
@@ -42,6 +49,7 @@ namespace Sample_Api.Controllers
     //            return BadRequest();
     //        }
 
+    //        object _userManager = null;
     //        await _userManager.AddClaimAsync(user, new Claim(clientName, true.ToString().ToLower()));
 
     //        var t = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -58,4 +66,8 @@ namespace Sample_Api.Controllers
     //    }
     //}
 
+    //IActionResult BadRequest()
+    //{
+    //    throw new System.NotImplementedException();
+    //}
 }
